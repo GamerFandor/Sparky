@@ -1,7 +1,9 @@
 import os
 import discord
 from discord.ext import commands
-from console import Console
+try: from libraries.console import Console    
+except: from console import Console
+    
 
 class Cog(commands.Cog):
     C = None
@@ -21,4 +23,13 @@ class Cog(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Cog(bot))
+
+if __name__ == "__main__":
+    C = Console("")
     
+    C.Message("Message example")
+    C.Success("Success example")
+    C.Information("Information example")
+    C.Warning("Warning example")
+    C.Error("Error example")
+   
