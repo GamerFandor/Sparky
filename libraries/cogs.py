@@ -36,15 +36,15 @@ class Cog(commands.Cog):
     
     # Commands ------------------------------
     @commands.command()
-    @commands.has_permissions(manage_messages=True)
+    @commands.has_permissions(administrator=True)
     async def ping(self, ctx):
         await ctx.send(f"⏲️ {round(self.bot.latency, 2)}ms")
         
     @commands.command(aliases = ["del", "delete", "clean"])
+    @commands.has_permissions(manage_messages=True)
     async def clear(self, ctx, amount = 1):
-        amount = amount + 1
-        await ctx.channel.purge(limit = amount)
-        self.C.Warning(f"@{ctx.message.author} just deleted {amount - 1} message(s) in the #{ctx.channel.name} channel!")
+        await ctx.channel.purge(limit = amount + 1)
+        self.C.Information(f"@{ctx.message.author} just deleted {amount} message(s) in the #{ctx.channel.name} channel!")
 
     @commands.command()
     @commands.has_permissions(manage_roles=True)
