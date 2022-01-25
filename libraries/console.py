@@ -1,5 +1,6 @@
 import colorama
 from colorama import Fore, Back, Style
+from time import gmtime, strftime
 
 class Console:
     console_prefix = None
@@ -36,7 +37,7 @@ class Console:
         print("                 .Ny /:`/hyhdmmN: `yo  hMMMMMMMMNhsMMNyosyy+--+`.N/                  Sparky")                       
         print("                  /No.d:`oNMMMMMh.sMo `NMMMMMMMMMMdMMMMMMMh``yh`hm`")                       
         print(f"                   oMs/d- :yNMMMMNNMy.-MMMMMMNMMMMMMMMMMNo``hN:sN:                   {Fore.BLACK}{Back.WHITE}VERSION")                       
-        print("                    sMh/y:  ./sdmNMNd:`odmmdy:oNMMMMMNdo- .hm:sMo                    1.5")                       
+        print('                    sMh/y:  ./sdmNMNd:`odmmdy:oNMMMMMNdo- .hm:sMo                    1.5.1')                       
         print("                     sMm/+s/`   .-:-`   `/:`   -oys+:-` `/ds.sMs")                       
         print(f"                      sMN+.ody+-``     .hMNy.       ``-odm:`hMs                      {Fore.BLACK}{Back.WHITE}DESCRIPTION")                       
         print("                       oMMs .oNMNdyso+oyyyyhs---:/oshNMMNy:mMo                       Sparky is a discord bot. It is made for help your server keep tidy. It is")                       
@@ -57,19 +58,19 @@ class Console:
         pass
     
     def Message(self, text):
-        print(f"{self.console_prefix}{text}")
+        print(f"[{strftime('%H:%M:%S', gmtime())}] {self.console_prefix}{text}")
     
     def Success(self, text):
-        print(f"{self.console_prefix}{Fore.GREEN}{Style.BRIGHT}{text}")
+        print(f"[{strftime('%H:%M:%S', gmtime())}] {self.console_prefix}{Fore.GREEN}{Style.BRIGHT}{text}")
     
     def Information(self, text):
-        print(f"{self.console_prefix}{Fore.CYAN}{text}")
+        print(f"[{strftime('%H:%M:%S', gmtime())}] {self.console_prefix}{Fore.CYAN}{text}")
         
     def Warning(self, text):
-        print(f"{self.console_prefix}{Fore.YELLOW}{text}")
+        print(f"[{strftime('%H:%M:%S', gmtime())}] {self.console_prefix}{Fore.YELLOW}{text}")
         
     def Error(self, text):
-        print(f"{self.console_prefix}{Fore.RED}{text}")
+        print(f"[{strftime('%H:%M:%S', gmtime())}] {self.console_prefix}{Fore.RED}{text}")
         
 if __name__ == "__main__":
     C = Console("")
