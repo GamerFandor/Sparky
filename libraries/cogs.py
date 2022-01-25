@@ -1,6 +1,4 @@
-from ast import alias
 import os
-from click import command
 import discord
 from discord.ext import commands
 try: from libraries.console import Console    
@@ -44,11 +42,13 @@ class Cog(commands.Cog):
     async def clear(self, ctx, amount = 0):
         amount = amount + 1
         await ctx.channel.purge(limit = amount)
-        self.C.Warning(f"@{ctx.message.author} just deleted {amount - 1} message(s) in #{ctx.channel.name} channel!")
-    
+        self.C.Warning(f"@{ctx.message.author} just deleted {amount - 1} message(s) in the #{ctx.channel.name} channel!")
+
+# Connect to the bot  
 def setup(bot):
     bot.add_cog(Cog(bot))
 
+# Test cogs locally
 if __name__ == "__main__":
     C = Console("")
     
