@@ -2,6 +2,7 @@ import os
 import sys
 import discord
 from discord.ext import commands
+from better_profanity import profanity
 try: from libraries.console import Console    
 except: from console import Console
    
@@ -23,6 +24,15 @@ class Cog(commands.Cog):
         # Set custom activity
         await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=" you 😈"))
 
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        pass
+        """
+        if profanity.contains_profanity(message):
+           await message.author.send("You used bad word(s). Don't do it again.")         
+           message.delete()"""
+        
+    
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
@@ -51,6 +61,10 @@ class Cog(commands.Cog):
     async def reboot(self, ctx):
         self.C.Information(f"The bot will be rebooted by @{ctx.author}.")
         os.execv(sys.executable, ['python'] + sys.argv)
+     
+    @commands.command()
+    async def test(self, ctx):
+        await ctx.author.send("This is your dm?")
             
 # Connect to the bot  
 def setup(bot):
