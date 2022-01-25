@@ -1,4 +1,5 @@
 import os
+import sys
 import discord
 from discord.ext import commands
 try: from libraries.console import Console    
@@ -35,15 +36,22 @@ class Cog(commands.Cog):
     
     # Commands ------------------------------
     @commands.command()
+    @commands.has_permissions(manage_messages=True)
     async def ping(self, ctx):
         await ctx.send(f"⏲️ {round(self.bot.latency, 2)}ms")
         
     @commands.command(aliases = ["del", "delete", "clean"])
-    async def clear(self, ctx, amount = 0):
+    async def clear(self, ctx, amount = 1):
         amount = amount + 1
         await ctx.channel.purge(limit = amount)
         self.C.Warning(f"@{ctx.message.author} just deleted {amount - 1} message(s) in the #{ctx.channel.name} channel!")
 
+    @commands.command()
+    @commands.has_permissions(manage_roles=True)
+    async def reboot(self, ctx):
+        self.C.Information(f"The bot will be rebooted by @{ctx.author}.")
+        os.execv(sys.executable, ['python'] + sys.argv)
+            
 # Connect to the bot  
 def setup(bot):
     bot.add_cog(Cog(bot))
