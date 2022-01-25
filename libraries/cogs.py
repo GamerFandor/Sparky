@@ -3,8 +3,7 @@ import discord
 from discord.ext import commands
 try: from libraries.console import Console    
 except: from console import Console
-    
-
+   
 class Cog(commands.Cog):
     C = None
     
@@ -16,6 +15,7 @@ class Cog(commands.Cog):
     async def on_ready(self):
         # Feedback on console
         os.system("cls")
+        self.C.title()
         self.C.Success("All systems are fully operational.")
         
         # Set custom activity
