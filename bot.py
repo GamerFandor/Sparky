@@ -1,11 +1,12 @@
 import discord
 from discord.ext import commands
+from libraries.jsonloader import load
 
 # Set up the bot
-bot = commands.Bot(command_prefix = "!")
+bot = commands.Bot(command_prefix = load("databases/botdata.json", "prefix"))
 
 # Link cogs
 bot.load_extension("libraries.cogs")
 
 # Run the bot
-bot.run("OTExMzE5NDg0NjQ2NjkwODM2.YZfqaA.LY0dLGdZHtQwjbPF-EddM7Qb9R4")
+bot.run(load("databases/botdata.json", "TOKEN"))
