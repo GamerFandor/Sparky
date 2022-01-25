@@ -1,11 +1,14 @@
+import os
 from discord.ext import commands
-from libraries.jsonloader import load
+from libraries.console import Console
 
 # Set up the bot
-bot = commands.Bot(command_prefix = load(__file__.replace("\\", "/").replace("bot.py", "") + "/databases/botdata.json", "prefix"))
+bot = commands.Bot(command_prefix = "!")
 
 # Link cogs
 bot.load_extension("libraries.cogs")
 
 # Run the bot
-bot.run(load(__file__.replace("\\", "/").replace("bot.py", "") + "/databases/botdata.json", "TOKEN"))
+C = Console()
+try: bot.run(os.environ.get('SPARKY_TOKEN'))
+except: C.Error("I can't get the TOKEN")

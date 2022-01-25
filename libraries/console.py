@@ -37,7 +37,7 @@ class Console:
         print("                 .Ny /:`/hyhdmmN: `yo  hMMMMMMMMNhsMMNyosyy+--+`.N/                  Sparky")                       
         print("                  /No.d:`oNMMMMMh.sMo `NMMMMMMMMMMdMMMMMMMh``yh`hm`")                       
         print(f"                   oMs/d- :yNMMMMNNMy.-MMMMMMNMMMMMMMMMMNo``hN:sN:                   {Fore.BLACK}{Back.WHITE}VERSION")                       
-        print('                    sMh/y:  ./sdmNMNd:`odmmdy:oNMMMMMNdo- .hm:sMo                    1.6.0')                       
+        print('                    sMh/y:  ./sdmNMNd:`odmmdy:oNMMMMMNdo- .hm:sMo                    1.6.1')                       
         print("                     sMm/+s/`   .-:-`   `/:`   -oys+:-` `/ds.sMs")                       
         print(f"                      sMN+.ody+-``     .hMNy.       ``-odm:`hMs                      {Fore.BLACK}{Back.WHITE}DESCRIPTION")                       
         print("                       oMMs .oNMNdyso+oyyyyhs---:/oshNMMNy:mMo                       Sparky is a discord bot. It is made for help your server keep tidy. It is")                       
