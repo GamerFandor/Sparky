@@ -1,6 +1,7 @@
 import os
 from discord.ext import commands
 from libraries.console import Console
+from libraries.help import CustomHelpCommand
 
 # Print title to the console
 os.system("cls")
@@ -8,12 +9,12 @@ C = Console()
 C.title()
 
 # Set up the bot
-bot = commands.Bot(command_prefix = "!")
+bot = commands.Bot(command_prefix = "!", help_command = CustomHelpCommand())
 
 # Link cogs
 try:
     for filename in os.listdir(f'{str(__file__)[:-6]}libraries/'):
-        if filename.endswith('.py') and filename != "console.py":
+        if filename.endswith('.py') and filename != "console.py" and filename != "help.py" and filename != "embeds.py":
             bot.load_extension(f"libraries.{filename[:-3]}")
 except: C.Error("Cogs aren't loaded in successfully.")
 

@@ -2,6 +2,8 @@ import os
 import discord
 from discord.ext import commands
 from better_profanity import profanity as prof
+try: from libraries.embeds import CustomEmbeds
+except: from embeds import CustomEmbeds
 try: from libraries.console import Console
 except: from console import Console
 
@@ -25,21 +27,23 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         if prof.contains_profanity(message.content):
-            await message.channel.send(f"{message.author.mention} You used unallowed word(s). Do not do it again, or you will be kicked by me!")
+            await CustomEmbeds.DMEmbed(message)
             self.C.Message(f"@{message.author} used unallowed word(s). Warning message has been sent to the user.")
             await message.delete()
-            # TODO: send DM message when someone does rule violation
-            
+    
+    # Add custom role to the new user and mention it
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        self.C.Message(f"@{member} has joined the server.")   
+        
+    @commands.Cog.listener()
+    async def on_member_remove(self, member):
+        self.C.Message(f"@{member} has left the server.") 
+    
+    # Error handling        
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(f"{ctx.message.author.mention} Please pass in all required arguments! If something doesn't work properly, try the `!help` command or notify an admin!")
-        elif isinstance(error, commands.MissingPermissions):
-            await ctx.send(f"{ctx.message.author.mention} You don't have permission to use this command.")
-        elif isinstance(error, commands.CommandNotFound):
-            await ctx.send(f"{ctx.message.author.mention} This command doesn't exist. Use `!help` command to list every commands.")
-        else:
-            await ctx.send(f"{ctx.message.author.mention} Something went wrong. Use `!help` command to list every commands.")
+        await CustomEmbeds.InformationEmbed(ctx, "Command error", "Something went wrong. Use `!help` command to list every commands.")
         self.C.Message(f"{ctx.author} caused command error.")
 
         
