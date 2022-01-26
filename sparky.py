@@ -13,7 +13,7 @@ bot = commands.Bot(command_prefix = "!", help_command = CustomHelpCommand())
 
 # Link cogs
 try:
-    for filename in os.listdir(f'{str(__file__)[:-6]}libraries/'):
+    for filename in os.listdir(f'{str(__file__)[:-9]}libraries/'):
         if filename.endswith('.py') and filename != "console.py" and filename != "help.py" and filename != "embeds.py":
             bot.load_extension(f"libraries.{filename[:-3]}")
 except: C.Error("Cogs aren't loaded in successfully.")
