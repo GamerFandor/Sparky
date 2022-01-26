@@ -1,6 +1,6 @@
 import colorama
 from colorama import Fore, Back, Style
-from time import gmtime, strftime
+from time import localtime, strftime
 
 class Console:
     console_prefix = None
@@ -58,19 +58,19 @@ class Console:
         pass
     
     def Message(self, text):
-        print(f"[{strftime('%H:%M:%S', gmtime())}] {self.console_prefix}{text}")
+        print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{text}")
     
     def Success(self, text):
-        print(f"[{strftime('%H:%M:%S', gmtime())}] {self.console_prefix}{Fore.GREEN}{Style.BRIGHT}{text}")
+        print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{Fore.GREEN}{Style.BRIGHT}{text}")
     
     def Information(self, text):
-        print(f"[{strftime('%H:%M:%S', gmtime())}] {self.console_prefix}{Fore.CYAN}{text}")
+        print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{Fore.CYAN}{text}")
         
     def Warning(self, text):
-        print(f"[{strftime('%H:%M:%S', gmtime())}] {self.console_prefix}{Fore.YELLOW}{text}")
+        print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{Fore.YELLOW}{text}")
         
     def Error(self, text):
-        print(f"[{strftime('%H:%M:%S', gmtime())}] {self.console_prefix}{Fore.RED}{text}")
+        print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{Fore.RED}{text}")
         
 if __name__ == "__main__":
     C = Console("")
