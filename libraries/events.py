@@ -34,7 +34,12 @@ class Events(commands.Cog):
     # Add custom role to the new user and mention it
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        self.C.Message(f"@{member} has joined the server.")   
+        self.C.Message(f"@{member} has joined the server.")
+        try:
+            role = discord.utils.get(member.server.roles, id="<role ID>")
+            await self.bot.add_roles(member, role)
+        except: 
+            self.C.Error(f"Failed to give a startup role to @{member}")
         
     @commands.Cog.listener()
     async def on_member_remove(self, member):
