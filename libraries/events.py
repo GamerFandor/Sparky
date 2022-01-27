@@ -36,6 +36,9 @@ class Events(commands.Cog):
         if prof.contains_profanity(message.content):
             await message.author.send(embed = discord.Embed(title = "Rule violation", description = "You used unallowed word(s). Do not do it again, or you will be kicked by me!", color = 0xad0000))
             self.C.Message(f"@{message.author} used unallowed word(s). Warning message has been sent to the user.")
+            if violation_happend(message.author.id):
+                self.C.Message(f"@{message.author} broke the rules five times. The user was removed from the server.")
+                await message.author.kick(reason = "You broke the rules five times.")
             await message.delete()
     
     # Add custom role to the new user and mention it

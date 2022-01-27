@@ -24,6 +24,5 @@ except:
     C.Error("I was not able to load the cogs.")
 
 # Run the bot
-bot.run(str(get_token()))
-#try: 
-#except: C.Error("I was not able to get the TOKEN.")
+try: bot.run(get_token())
+except: C.Error("I was not able to get the TOKEN.")
