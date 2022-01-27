@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 from libraries.console import Console
 from libraries.help import CustomHelpCommand
+from libraries.queries import get_token
 
 # Print title to the console
 os.system("cls")
@@ -17,10 +18,12 @@ bot = commands.Bot(command_prefix = "!", intents = intents, help_command = Custo
 # Link cogs
 try:
     for filename in os.listdir(f'{str(__file__)[:-9]}libraries/'):
-        if filename.endswith('.py') and filename != "console.py" and filename != "help.py" and filename != "embeds.py":
+        if filename.endswith('.py') and filename != "console.py" and filename != "help.py" and filename != "queries.py":
             bot.load_extension(f"libraries.{filename[:-3]}")
-except: C.Error("Cogs aren't loaded in successfully.")
+except:
+    C.Error("I was not able to load the cogs.")
 
 # Run the bot
-try: bot.run(os.environ.get('SPARKY_TOKEN'))
-except: C.Error("I can't get the TOKEN")
+bot.run(str(get_token()))
+#try: 
+#except: C.Error("I was not able to get the TOKEN.")

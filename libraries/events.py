@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 from discord.utils import get
 from better_profanity import profanity as prof
+from libraries.queries import *
 try: from libraries.console import Console
 except: from console import Console
 
@@ -20,8 +21,15 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         self.C.Success("All systems are fully operational.")
-        await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=" you 😈"))
-
+        if get_activity_type()== "playing":
+                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=get_activity_text()))
+        elif get_activity_type()== "watching":
+                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=get_activity_text()))
+        elif get_activity_type()== "listening":
+                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=get_activity_text()))
+        elif get_activity_type()== "streaming":
+                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.streaming, name=get_activity_text()))
+        
     # Delete messages that contain unallowed words and warn the author about it's violation
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -35,12 +43,12 @@ class Events(commands.Cog):
     async def on_member_join(self, member):
         self.C.Message(f"@{member} has joined the server.")                
         try:
-            role = get(member.guild.roles, id=936224839545544734)
+            role = get(member.guild.roles, id=get_default_role())
             await member.add_roles(role)
         except: 
             self.C.Error(f"Failed to give a startup role to @{member}")        
         try:
-            channel = self.bot.get_channel(936224723598192660)
+            channel = self.bot.get_channel(get_welcome_channel())
             embed = discord.Embed(title = f"@{member.name}", description = "Have fun on the server!", color = 0xc2c200)
             embed.set_author(name = "Welcome")
             embed.set_thumbnail(url = member.avatar_url)
