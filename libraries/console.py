@@ -1,13 +1,16 @@
+from sys import prefix
 import colorama
 from colorama import Fore, Back, Style
 from time import localtime, strftime
 
 class Console:
     console_prefix = None
+    time = None
     
-    def __init__(self, prefix = "Sparky> "):
-        colorama.init(autoreset = True)
+    def __init__(self, prefix = "Sparky> ", time = True):
+        colorama.init(autoreset = True, strip=True)
         self.console_prefix = prefix
+        self.time = time
     
     def title(self):
         print()
@@ -37,7 +40,7 @@ class Console:
         print("                 .Ny /:`/hyhdmmN: `yo  hMMMMMMMMNhsMMNyosyy+--+`.N/                  Sparky")                       
         print("                  /No.d:`oNMMMMMh.sMo `NMMMMMMMMMMdMMMMMMMh``yh`hm`")                       
         print(f"                   oMs/d- :yNMMMMNNMy.-MMMMMMNMMMMMMMMMMNo``hN:sN:                   {Fore.BLACK}{Back.WHITE}VERSION")                       
-        print('                    sMh/y:  ./sdmNMNd:`odmmdy:oNMMMMMNdo- .hm:sMo                    1.6.1')                       
+        print('                    sMh/y:  ./sdmNMNd:`odmmdy:oNMMMMMNdo- .hm:sMo                    1.7.1')                       
         print("                     sMm/+s/`   .-:-`   `/:`   -oys+:-` `/ds.sMs")                       
         print(f"                      sMN+.ody+-``     .hMNy.       ``-odm:`hMs                      {Fore.BLACK}{Back.WHITE}DESCRIPTION")                       
         print("                       oMMs .oNMNdyso+oyyyyhs---:/oshNMMNy:mMo                       Sparky is a discord bot. It is made for help your server keep tidy. It is")                       
@@ -58,22 +61,37 @@ class Console:
         pass
     
     def Message(self, text):
-        print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{text}")
+        if self.time:
+            print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{text}")
+        else:
+            print(f"{self.console_prefix}{text}")
     
     def Success(self, text):
-        print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{Fore.GREEN}{Style.BRIGHT}{text}")
+        if self.time:
+            print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{Fore.GREEN}{Style.BRIGHT}{text}")
+        else:
+            print(f"{self.console_prefix}{Fore.GREEN}{Style.BRIGHT}{text}")
     
     def Information(self, text):
-        print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{Fore.CYAN}{text}")
+        if self.time:
+            print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{Fore.CYAN}{text}")
+        else:
+            print(f"{self.console_prefix}{Fore.CYAN}{text}")
         
     def Warning(self, text):
-        print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{Fore.YELLOW}{text}")
+        if self.time:
+            print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{Fore.YELLOW}{text}")
+        else:
+            print(f"{self.console_prefix}{Fore.YELLOW}{text}")
         
     def Error(self, text):
-        print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{Fore.RED}{text}")
+        if self.time:
+            print(f"[{strftime('%H:%M:%S', localtime())}] {self.console_prefix}{Fore.RED}{text}")
+        else:
+            print(f"{self.console_prefix}{Fore.RED}{text}")
         
 if __name__ == "__main__":
-    C = Console("")
+    C = Console(prefix = "Test> ", time = True)
     
     C.title()
     C.Message("Message example")

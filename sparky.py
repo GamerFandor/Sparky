@@ -1,4 +1,5 @@
 import os
+import discord
 from discord.ext import commands
 from libraries.console import Console
 from libraries.help import CustomHelpCommand
@@ -9,7 +10,9 @@ C = Console()
 C.title()
 
 # Set up the bot
-bot = commands.Bot(command_prefix = "!", help_command = CustomHelpCommand())
+intents = discord.Intents.default()
+intents.members = True
+bot = commands.Bot(command_prefix = "!", intents = intents, help_command = CustomHelpCommand())
 
 # Link cogs
 try:

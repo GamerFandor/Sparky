@@ -1,9 +1,8 @@
-import os
+# Moduls
 import discord
 from discord.ext import commands
+from discord.utils import get
 from better_profanity import profanity as prof
-try: from libraries.embeds import CustomEmbeds
-except: from embeds import CustomEmbeds
 try: from libraries.console import Console
 except: from console import Console
 
@@ -27,29 +26,29 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         if prof.contains_profanity(message.content):
-            await CustomEmbeds.DMEmbed(message)
+            await message.author.send(embed = discord.Embed(title = "Rule violation", description = "You used unallowed word(s). Do not do it again, or you will be kicked by me!", color = 0xad0000))
             self.C.Message(f"@{message.author} used unallowed word(s). Warning message has been sent to the user.")
             await message.delete()
     
     # Add custom role to the new user and mention it
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        self.C.Message(f"@{member} has joined the server.")
+        self.C.Message(f"@{member} has joined the server.")                
         try:
-            role = discord.utils.get(member.server.roles, id="")
-            await self.bot.add_roles(member, role)
+            role = get(member.guild.roles, id=936224839545544734)
+            await member.add_roles(role)
         except: 
-            self.C.Error(f"Failed to give a startup role to @{member}")
-            
+            self.C.Error(f"Failed to give a startup role to @{member}")        
         try:
-            channel = self.bot.get_channel("<id>")
-            embed = discord.Embed(title = f"Welcome {member.name} on the server!", color = 0xc2c200)
-            embed.set_author("New member")
-            embed.set_thumbnail(url = member.image_url)
+            channel = self.bot.get_channel(936224723598192660)
+            embed = discord.Embed(title = f"@{member.name}", description = "Have fun on the server!", color = 0xc2c200)
+            embed.set_author(name = "Welcome")
+            embed.set_thumbnail(url = member.avatar_url)
             await channel.send(embed = embed)
         except:
-            self.C.Error(f"Failed to send a welcom message to @{member}")
-        
+            self.C.Error(f"Failed to send a welcome message to @{member}")
+    
+    # When a member leave the server, it will send a message to the console  
     @commands.Cog.listener()
     async def on_member_remove(self, member):
         self.C.Message(f"@{member} has left the server.") 
@@ -57,10 +56,9 @@ class Events(commands.Cog):
     # Error handling        
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        await CustomEmbeds.InformationEmbed(ctx, "Command error", "Something went wrong. Use `!help` command to list every commands.")
+        await ctx.send(ctx.message.author.mention, embed = discord.Embed(title = "Command error", description = "Something went wrong. Use `!help` command to list every commands.", color = 0x009de0))
         self.C.Message(f"{ctx.author} caused command error.")
-
-        
+    
 # Connect to the bot  
 def setup(bot):
     bot.add_cog(Events(bot))

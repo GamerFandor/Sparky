@@ -39,7 +39,7 @@ class Commands(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def ban(self, ctx, member:discord.Member, *, reason = None):
         await member.ban(reason=reason)
-        self.C.Information(f"@{ctx.message.author} has unbanned @{member}.")
+        self.C.Information(f"@{ctx.message.author} has banned @{member}.")
         
     # Ban command: Ban the user
     @commands.command()
