@@ -1,3 +1,4 @@
+# Modules
 import os
 import discord
 from discord.ext import commands
@@ -5,7 +6,7 @@ from libraries.console import Console
 from libraries.help import CustomHelpCommand
 from libraries.queries import get_token
 
-# Print title to the console
+# Print the title to the console
 os.system("cls")
 C = Console()
 C.title()

@@ -1,3 +1,4 @@
+# Modules
 import ast
 import json
 
@@ -40,6 +41,10 @@ def write_users_data(data):
     with open(__file__[:-10].replace("\\", "/") + "../databases/users.json", "w", encoding = "utf8") as f:
         f.write(json.dumps(data))
 
+# Return that user is in the database
+def user_is_stored(user_id):
+    return str(read_users_data()).find(str(user_id)) != -1
+
 # Returns the index of the user stored in 'users.json'
 def find_user(user_id):
     for user in read_users_data()["users"]:
@@ -49,10 +54,11 @@ def find_user(user_id):
 
 # Adds a unadded user to the database
 def add_user_data(user_id, violation_amount):
-    user_dict = str({"id":user_id, "violations_amount":violation_amount}, )
-    index = str(read_users_data()).find("[") + 1
-    new_dict = (str(read_users_data())[:index] + user_dict + str(read_users_data())[index:]).replace("}{", "}, {")
-    write_users_data(ast.literal_eval(new_dict))
+    if not user_is_stored(user_id):
+        user_dict = str({"id":user_id, "violations_amount":violation_amount}, )
+        index = str(read_users_data()).find("[") + 1
+        new_dict = (str(read_users_data())[:index] + user_dict + str(read_users_data())[index:]).replace("}{", "}, {")
+        write_users_data(ast.literal_eval(new_dict))
 
 # Increses the amount of the violations of the specified user
 def violation_happend(user_id):
@@ -87,6 +93,7 @@ def delete_user_database(user_id = None):
     if user_id == None:
         write_users_data({'users':[]})
     else:
-        database = str(read_users_data())
-        database_replaced = database.replace("{"+"'id': " + str(user_id) + ", 'violations_amount': " + str(find_user(user_id)["violations_amount"]) + "}", "").replace("[, ", "[").replace(", , ", ", ").replace(", ]", "]")
-        write_users_data(ast.literal_eval(database_replaced))
+        if user_is_stored(user_id):
+            database = str(read_users_data())
+            database_replaced = database.replace("{"+"'id': " + str(user_id) + ", 'violations_amount': " + str(find_user(user_id)["violations_amount"]) + "}", "").replace("[, ", "[").replace(", , ", ", ").replace(", ]", "]")
+            write_users_data(ast.literal_eval(database_replaced))

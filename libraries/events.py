@@ -1,4 +1,4 @@
-# Moduls
+# Modules
 import discord
 from discord.ext import commands
 from discord.utils import get
@@ -38,13 +38,16 @@ class Events(commands.Cog):
             self.C.Message(f"@{message.author} used unallowed word(s). Warning message has been sent to the user.")
             if violation_happend(message.author.id):
                 self.C.Message(f"@{message.author} broke the rules five times. The user was removed from the server.")
-                await message.author.kick(reason = "You broke the rules five times.")
+                delete_user_database(message.author.id)
+                await message.author.send(embed = discord.Embed(title = "Kick information", description = "You broke the rules five times and I kicked you as I told you.", color = 0xad0000))
+                await message.author.kick(reason = "You broke the rules five times.")                
             await message.delete()
     
     # Add custom role to the new user and mention it
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        self.C.Message(f"@{member} has joined the server.")                
+        self.C.Message(f"@{member} has joined the server.")  
+        add_user_data(member.id, 0)              
         try:
             role = get(member.guild.roles, id=get_default_role())
             await member.add_roles(role)
@@ -62,7 +65,8 @@ class Events(commands.Cog):
     # When a member leave the server, it will send a message to the console  
     @commands.Cog.listener()
     async def on_member_remove(self, member):
-        self.C.Message(f"@{member} has left the server.") 
+        self.C.Message(f"@{member} has left the server.")
+        delete_user_database(member.id)
     
     # Error handling        
     @commands.Cog.listener()
@@ -70,10 +74,6 @@ class Events(commands.Cog):
         await ctx.send(ctx.message.author.mention, embed = discord.Embed(title = "Command error", description = "Something went wrong. Use `!help` command to list every commands.", color = 0x009de0))
         self.C.Message(f"{ctx.author} caused command error.")
     
-# Connect to the bot  
+# Connect cog to the bot  
 def setup(bot):
     bot.add_cog(Events(bot))
-
-# Test commands locally
-if __name__ == "__main__":
-    pass

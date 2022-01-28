@@ -1,3 +1,4 @@
+# Modules
 import os
 import sys
 import discord
@@ -101,15 +102,11 @@ class Commands(commands.Cog):
         self.C.Information(f"The bot will be rebooted by @{ctx.author}.")
         os.execv(sys.executable, ['python'] + sys.argv)
 
-    # Test command: test new features (developer tool - delete when you want to release the bot)
+    # Test command: test new features (NOTE: developer tool, delete when you want to release the bot)
     @commands.command()
     async def test(self, ctx):
         await ctx.author.send("This is your dm?")   
 
-# Connect to the bot  
+# Connect cog to the bot  
 def setup(bot):
     bot.add_cog(Commands(bot))
-
-# Test commands locally
-if __name__ == "__main__":
-    pass
