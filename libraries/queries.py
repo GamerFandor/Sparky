@@ -1,3 +1,4 @@
+import ast
 import json
 
 # Get the content of 'bot.json'
@@ -32,6 +33,11 @@ def read_users_data():
         json_object = json.loads(f.read())
     return json_object
 
+# Set the content of 'users.json'
+def write_users_data(data):
+    with open(__file__[:-10].replace("\\", "/") + "../databases/users.json", "w", encoding = "utf8") as f:
+        f.write(data, indent=4)
+
 # Returns the index of the user stored in 'users.json'
 def find_user(user_id):
     for user in read_users_data()["users"]:
@@ -41,9 +47,10 @@ def find_user(user_id):
 
 # Adds a unadded user to the database
 def add_user_data(user_id, violation_amount):
-    user_dict = {"id":user_id, "violations_amount":violation_amount}
-    with open(__file__[:-10].replace("\\", "/") + "../databases/users.json", "w", encoding = "utf8") as f:
-        f.write(json.dumps(user_dict, indent=2))
+    user_dict = str({"id":user_id, "violations_amount":violation_amount}, )
+    index = str(read_users_data()).find("[") + 1
+    new_dict = (str(read_users_data())[:index] + user_dict + str(read_users_data())[index:]).replace("}{", "}, {")
+    write_users_data(json.dumps(ast.literal_eval(new_dict)))
 
 # Increses the amount of the violations of the specified user
 def violation_happend(user_id):
@@ -56,8 +63,10 @@ def violation_happend(user_id):
 # Sets the violation counter to 0
 def reset_user_database(user_id = None):
     if user_id == None:
-        #TODO: reset the whole database
-        pass
+        database = read_users_data()
+        for i in range(len(database["users"])):
+            database["users"][i]["violations_amount"] = 0
+        print(database)        
     else:
         #TODO: reset the specified users database
         pass
@@ -65,20 +74,13 @@ def reset_user_database(user_id = None):
 # Delets every information about everyone
 def delete_user_database(user_id = None):
     if user_id == None:
-        with open(__file__[:-10].replace("\\", "/") + "../databases/users.json", "w", encoding = "utf8") as f:
-            f.write(json.dumps({"users":[]}, indent=4))
-        pass
+        write_users_data(json.dumps({'users':[]}))
     else:
-        #TODO: delete the specified users database
-        pass
+        database = str(read_users_data())
+        database_replaced = database.replace("{"+"'id': " + str(user_id) + ", 'violations_amount': " + str(find_user(user_id)["violations_amount"]) + "}", "").replace("[, ", "[").replace(", , ", ", ").replace(", ]", "]")
+        with open(__file__[:-10].replace("\\", "/") + "../databases/users.json", "w", encoding = "utf8") as f:
+            f.write(json.dumps(ast.literal_eval(database_replaced), indent=4))
 
 # Test queries locally
 if __name__ == "__main__":
-    delete_user_database()
-    pass
-    #add_user_data(124, 3)
-    #
-    #print("Test user queries")
-    #print("------------------------------")
-    #print(f"id     -> {find_user(user_id = 123)['id']}")
-    #print(f"amount -> {find_user(user_id = 123)['violations_amount']}")
+    reset_user_database()
