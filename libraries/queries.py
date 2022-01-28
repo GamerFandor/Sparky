@@ -58,11 +58,16 @@ def add_user_data(user_id, violation_amount):
 def violation_happend(user_id):
     if find_user(user_id) == None:
         add_user_data(user_id, 1)
+        return False
     else:
         user = find_user(user_id)
         user["violations_amount"] = user["violations_amount"] + 1
         updated_database = str(read_users_data()).replace(str(find_user(user_id)), str(user))
         write_users_data(ast.literal_eval(updated_database))
+        if user["violations_amount"] % 5 == 0:
+            return True
+        else:
+            return False
 
 # Sets the violation counter to 0
 def reset_user_database(user_id = None):
