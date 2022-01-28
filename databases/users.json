@@ -1,12 +1,3 @@
 {
-    "users": [
-        {
-            "id": 1234,
-            "violations_amount": 0
-        },
-        {
-            "id": 123,
-            "violations_amount": 1
-        }
-    ]
+    "users": []
 }
