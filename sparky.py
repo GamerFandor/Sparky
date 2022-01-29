@@ -3,7 +3,6 @@ import os
 import discord
 from discord.ext import commands
 from libraries.console import Console
-from libraries.help import CustomHelpCommand
 from libraries.queries import get_token
 
 # Print the title to the console
@@ -14,12 +13,12 @@ C.title()
 # Set up the bot
 intents = discord.Intents.default()
 intents.members = True
-bot = commands.Bot(command_prefix = "!", intents = intents, help_command = CustomHelpCommand())
+bot = commands.Bot(command_prefix = "!", intents = intents, help_command = None)
 
 # Link cogs
 try:
     for filename in os.listdir(f'{str(__file__)[:-9]}libraries/'):
-        if filename.endswith('.py') and filename != "console.py" and filename != "help.py" and filename != "queries.py":
+        if filename.endswith('.py') and filename != "console.py" and filename != "queries.py":
             bot.load_extension(f"libraries.{filename[:-3]}")
 except:
     C.Error("I was not able to load the cogs.")

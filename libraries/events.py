@@ -30,6 +30,10 @@ class Events(commands.Cog):
         elif get_activity_type()== "streaming":
                 await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.streaming, name=get_activity_text()))
         
+        for guild in self.bot.guilds:
+            for member in guild.members:
+                add_user_data(member.id, 0)
+        
     # Delete messages that contain unallowed words and warn the author about it's violation
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -71,8 +75,22 @@ class Events(commands.Cog):
     # Error handling        
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        await ctx.send(ctx.message.author.mention, embed = discord.Embed(title = "Command error", description = "Something went wrong. Use `!help` command to list every commands.", color = 0x009de0))
-        self.C.Message(f"{ctx.author} caused command error.")
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(ctx.message.author.mention, embed = discord.Embed(title = "Command error", description = f"This command is on cooldown. Please try again after {round(error.retry_after, 1)} seconds.", color = 0x009de0))
+            self.C.Message(f"{ctx.author} caused command error. (Command on cooldown)")
+        elif isinstance(error, commands.MissingPermissions):
+            await ctx.send(ctx.message.author.mention, embed = discord.Embed(title = "Command error", description = "You don't have permission to use this command. Use `!help` command to list every commands.", color = 0x009de0))
+            self.C.Message(f"{ctx.author} caused command error. (Missing permission)")
+        elif isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(ctx.message.author.mention, embed = discord.Embed(title = "Command error", description = "You didn't give every required arguments. Use `!help` command to list every commands.", color = 0x009de0))
+            self.C.Message(f"{ctx.author} caused command error. (Missing required argument)")
+        elif isinstance(error, commands.ConversionError):
+            await ctx.send(ctx.message.author.mention, embed = discord.Embed(title = "Command error", description = f"Conversion error. ({str(error)})", color = 0x009de0))
+            self.C.Message(f"{ctx.author} caused command error. (Conversation error: {str(error)})")
+        else:
+            await ctx.send(ctx.message.author.mention, embed = discord.Embed(title = "Command error", description = "Something went wrong. Use `!help` command to list every commands.", color = 0x009de0))
+            self.C.Message(f"{ctx.author} caused command error.")
+        
     
 # Connect cog to the bot  
 def setup(bot):
