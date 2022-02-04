@@ -48,10 +48,13 @@ class Commands(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def unban(self, ctx, *, member):
         member_name, member_discriminator = member.split("#")
+        
         for ban_entry in await ctx.guild.bans():
-            if (ban_entry.name, ban_entry.discriminator) == (member_name, member_discriminator):
+            
+            if (ban_entry.user.name, ban_entry.user.discriminator) == (member_name, member_discriminator):
+                
                 await ctx.guild.unban(ban_entry.user)
-                self.C.Information(f"@{ctx.message.author} has unbanned @{ban_entry.name}#{ban_entry.discriminator}.")
+                self.C.Information(f"@{ctx.message.author} has unbanned @{ban_entry.user.name}#{ban_entry.user.discriminator}.")
                 return
     
     # Reboot command: restart the discord bot (only authorized users can use)
